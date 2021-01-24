@@ -1,0 +1,11 @@
+{% with warnings = get_flashed_messages(category_filter=["warning"]) %}
+{% if warnings %}
+<div class="alert-message block-message warnings">
+    <ul class=>
+        {% for warning in warnings %}
+        <li>{{ warning }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endwith %}

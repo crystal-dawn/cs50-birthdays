@@ -1,0 +1,11 @@
+{% with infos = get_flashed_messages(category_filter=["info"]) %}
+{% if infos %}
+<div class="infos">
+    <ul>
+        {% for info in infos %}
+        <li>{{ info }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endwith %}

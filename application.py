@@ -25,12 +25,16 @@ def index():
         month = request.form.get("month")
         day = request.form.get("day")
 
-        name_entered(name)
-        birthday_entered(month, day)
-        # Check for duplicates, show warning and tip to enter last name
-        # Flash success after inserted into db
-        # else:
-        #     flash("Success!")
+        # Validate name entered
+        valid_name = name_entered(name)
+        # Validate birthday entered
+        valid_birthday = birthday_entered(month, day)
+        # Validate it's not a duplicate entry
+        unique_record = preexisting_record(name, month, day)
+
+        if valid_name and valid_birthday and unique_record:
+            flash("Success!", 'success')
+            db.execute("INSERT INTO birthdays (name, month, day) VALUES (:name, :month, :day)", name=name, month=month, day=day)
 
         return redirect("/")
 
@@ -46,11 +50,13 @@ def name_entered(name):
     ''' Flash error is name is not text, includes empty '''
     if not name.isalpha():
         flash("Please enter text name", "error")
+    else:
+        return True
 
 def birthday_entered(month, day):
-    app.logger.info(month)
-    app.logger.info(day)
     ''' Flash error if month and birthday are not valid '''
+    # Using February 29 to account for leap year
+    # If user enters 31 for April, error will trigger
     maxDaysInMonth = {
         '30': [
             '4',
@@ -63,18 +69,29 @@ def birthday_entered(month, day):
         ]
     }
 
+    # Month or day are blank
     if not month or not day:
-        flash('Please enter monday and day', 'error')
-        app.logger.info(maxDaysInMonth[day])
+        flash('Please enter month and day', 'error')
     else:
+        # Check if month/day combination is a valid possibility
         try:
             maxDaysInMonth[day]
 
             flash('That month has less days', 'error')
         except:
-            return None
-        # If looking up the day in maxDaysInMonth throws a value error, one of the fields is blank...?
-        # try:
+            return True
 
-        # except:
-        #     flash('Please enter month and day')
+
+def preexisting_record(name, month, day):
+    ''' Check for duplicates, show warning and tip to enter last name'''
+    duplicate = db.execute("SELECT * FROM birthdays WHERE name = :name AND month = :month AND day = :day",
+                name=name,
+                month=month,
+                day=day
+                )
+    # Flash warning and tip on proper data entry
+    if duplicate:
+        flash("Birthday record already exists", 'warning')
+        flash('If this is not a duplicate, enter a last name or initial to save record.', 'info')
+    else:
+        return True

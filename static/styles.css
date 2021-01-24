@@ -81,3 +81,26 @@ tbody tr:nth-of-type(odd) {
     background-color: rgb(179, 208, 255, 0.3)
 }
 
+ul {
+    list-style-type: none;
+}
+
+.errors {
+    color: #D8000C;
+    background-color: #FFD2D2;
+}
+
+.warnings {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+
+.successes {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+
+.infos {
+    color: #00529B;
+    background-color: #BDE5F8;
+}

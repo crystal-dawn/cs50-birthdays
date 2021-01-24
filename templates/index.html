@@ -15,8 +15,11 @@
 
                 <h2>Add a Birthday</h2>
                 <!-- TODO: Create a form for users to submit a name, a month, and a day -->
-                {% include "errors.html" %}
+                {% include "messages/errors.html" %}
+                {% include "messages/warnings.html" %}
+                {% include "messages/info.html" %}
                 {% include "birthday.html" %}
+                {% include "messages/success.html" %}
             </div>
 
             <div class="section">
