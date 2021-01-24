@@ -15,3 +15,10 @@ Optionally, you may also:
 - [ ] Add the ability to delete and/or edit birthday entries.
 - [x] Add any additional features of your choosing!
     _[Flask message flashing](https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/)_
+
+### - [ ] Add the ability to delete and/or edit birthday entries.
+- Change birthday records display into form
+- User selects record(s) with checkbox
+- User submits to delete
+- application.py checks for matching record
+- record is deleted
